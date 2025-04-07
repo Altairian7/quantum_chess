@@ -1,103 +1,185 @@
-import Image from "next/image";
+'use client';
+
+import { useWindowSize } from 'react-use';
+import { useEffect, useState } from 'react';
+import { Chess, PieceSymbol } from 'chess.js';
+import { Chessboard } from 'react-chessboard';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { width } = useWindowSize();
+  const boardWidth = Math.min(500, width - 200); // Responsive layout
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [game, setGame] = useState(new Chess());
+  const [fen, setFen] = useState(game.fen());
+  const [moveHistory, setMoveHistory] = useState<string[]>([]);
+  const [whiteTime, setWhiteTime] = useState(600); // 10 min in seconds
+  const [blackTime, setBlackTime] = useState(600);
+  const [turn, setTurn] = useState<'w' | 'b'>('w');
+  const [started, setStarted] = useState(false);
+  const [capturedWhite, setCapturedWhite] = useState<PieceSymbol[]>([]);
+  const [capturedBlack, setCapturedBlack] = useState<PieceSymbol[]>([]);
+
+  // Timer effect
+  useEffect(() => {
+    if (!started) return;
+
+    const interval = setInterval(() => {
+      if (game.isGameOver()) {
+        clearInterval(interval);
+        return;
+      }
+
+      if (turn === 'w') {
+        setWhiteTime((prev) => (prev > 0 ? prev - 1 : 0));
+      } else {
+        setBlackTime((prev) => (prev > 0 ? prev - 1 : 0));
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [turn, game, started]);
+
+  const formatTime = (seconds: number): string => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s < 10 ? '0' + s : s}`;
+  };
+
+  function safeGameMutate(modify: (game: Chess) => void) {
+    const updatedGame = new Chess(game.fen());
+    modify(updatedGame);
+    setGame(updatedGame);
+    setFen(updatedGame.fen());
+    setTurn(updatedGame.turn());
+
+    // Capture pieces logic
+    const history = updatedGame.history({ verbose: true });
+    const lastMove = history[history.length - 1];
+    if (lastMove?.captured) {
+      const captured = lastMove.captured;
+      if (lastMove.color === 'w') {
+        setCapturedBlack((prev) => [...prev, captured]);
+      } else {
+        setCapturedWhite((prev) => [...prev, captured]);
+      }
+    }
+
+    setMoveHistory(
+      history.map((move, i) =>
+        `${i % 2 === 0 ? Math.floor(i / 2 + 1) + '.' : ''} ${move.from}-${move.to}`
+      )
+    );
+  }
+
+  function onDrop(sourceSquare: string, targetSquare: string) {
+    if (!started) return false;
+
+    let moveMade = false;
+
+    safeGameMutate((game) => {
+      const move = game.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion: 'q',
+      });
+      if (move !== null) moveMade = true;
+    });
+
+    return moveMade;
+  }
+
+  const renderCapturedPieces = (pieces: PieceSymbol[]) => {
+    return pieces.map((p, i) => (
+      <img
+        key={i}
+        src={`/pieces/${p.toLowerCase()}.png`}
+        alt={p}
+        className="w-5 inline-block mx-0.5"
+      />
+    ));
+  };
+
+  return (
+    <div className="flex flex-col items-center h-screen bg-gradient-to-br from-gray-100 to-blue-100 p-4">
+      {/* Game Title */}
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-4 text-center tracking-tight">♟ Quantum Chess</h1>
+
+      {/* Timer Row */}
+      <div className="w-full max-w-5xl flex justify-between mb-4">
+        <div className="bg-white shadow-lg rounded-xl p-4 text-center w-1/3 font-semibold text-lg text-gray-700">
+          ♟️ Black: <span className="font-bold text-red-500">{formatTime(blackTime)}</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div className="bg-white shadow-lg rounded-xl p-4 text-center w-1/3 font-semibold text-lg text-gray-700">
+          ⚪ White: <span className="font-bold text-green-600">{formatTime(whiteTime)}</span>
+        </div>
+      </div>
+
+      {/* Start Button */}
+      {!started && (
+        <button
+          className="mb-4 px-6 py-2 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition"
+          onClick={() => setStarted(true)}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          Start Game
+        </button>
+      )}
+
+      {/* Main Game Area */}
+      <div className="flex gap-6 w-full max-w-5xl">
+        {/* Move History */}
+        <div className="w-48 bg-white rounded-2xl shadow-md p-4 overflow-y-auto max-h-[500px]">
+          <h2 className="text-center font-bold text-gray-800 mb-2 text-sm">📜 Move History</h2>
+          <ol className="text-xs list-decimal list-inside text-gray-700">
+            {moveHistory.map((move, index) => (
+              <li key={index}>{move}</li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Chessboard */}
+        <div className="flex flex-col items-center justify-center rounded-2xl shadow-xl bg-white p-2">
+          <Chessboard
+            position={fen}
+            onPieceDrop={onDrop}
+            boardWidth={boardWidth}
+            boardOrientation="white"
+            animationDuration={200}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+          {/* Captured Pieces */}
+          <div className="mt-3 text-center">
+            <div className="text-sm text-gray-600 mb-1">⚪ Captured by White</div>
+            <div>{renderCapturedBlack(capturedBlack)}</div>
+            <div className="text-sm text-gray-600 mt-2 mb-1">♟ Captured by Black</div>
+            <div>{renderCapturedWhite(capturedWhite)}</div>
+          </div>
+        </div>
+
+        {/* Leaderboard */}
+        <div className="w-48 bg-white rounded-2xl shadow-md p-4">
+          <h2 className="text-center font-bold text-gray-800 mb-2 text-sm">🏆 Leaderboard</h2>
+          <ul className="text-xs text-gray-700 space-y-1">
+            <li>1. Harsh - 2400</li>
+            <li>2. Nishant - 2300</li>
+            <li>3. Kraven - 2250</li>
+            <li>4. Arya - 2200</li>
+            <li>5. Luna - 2100</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
+}
+
+// Separate rendering helpers
+function renderCapturedBlack(pieces: PieceSymbol[]) {
+  return pieces.map((p, i) => (
+    <img key={i} src={`/pieces/w${p.toUpperCase()}.png`} className="w-6 inline-block mx-0.5" />
+  ));
+}
+
+function renderCapturedWhite(pieces: PieceSymbol[]) {
+  return pieces.map((p, i) => (
+    <img key={i} src={`/pieces/b${p.toUpperCase()}.png`} className="w-6 inline-block mx-0.5" />
+  ));
 }
