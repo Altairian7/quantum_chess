@@ -73,9 +73,36 @@ export default function Home() {
 
   function onDrop(sourceSquare: string, targetSquare: string) {
     if (!started) return false;
-
+  
+    if (superMode) {
+      if (!selectedSquare) {
+        setSelectedSquare(sourceSquare);
+        return false;
+      } else {
+        if (sourceSquare !== selectedSquare) return false;
+  
+        // Save superposition
+        const piece = game.get(sourceSquare);
+        if (piece) {
+          setSuperposedPieces((prev) => [
+            ...prev,
+            {
+              piece: piece.type,
+              color: piece.color,
+              squares: [sourceSquare, targetSquare],
+            },
+          ]);
+          // Remove from board visually
+          safeGameMutate((g) => g.remove(sourceSquare));
+          setSelectedSquare(null);
+          return true;
+        }
+      }
+      return false;
+    }
+  
+    // Normal move
     let moveMade = false;
-
     safeGameMutate((game) => {
       const move = game.move({
         from: sourceSquare,
@@ -84,9 +111,15 @@ export default function Home() {
       });
       if (move !== null) moveMade = true;
     });
-
+  
+    // Collapse any superpositions if interacted
+    setSuperposedPieces((prev) =>
+      prev.filter((sp) => !sp.squares.includes(sourceSquare))
+    );
+  
     return moveMade;
   }
+  
 
   const renderCapturedPieces = (pieces: PieceSymbol[]) => {
     return pieces.map((p, i) => (
