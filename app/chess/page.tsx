@@ -8,7 +8,7 @@ import { Timer, Crown, Trophy, History, Atom, Sparkles } from 'lucide-react';
 
 export default function chess() {
   const { width } = useWindowSize();
-  const boardWidth = Math.min(500, width ? width - 32 : 468);
+  const boardWidth = Math.min(580, width ? width - 32 : 468);
 
   const [game, setGame] = useState(new Chess());
   const [moveFrom, setMoveFrom] = useState('');
