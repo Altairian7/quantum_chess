@@ -5,6 +5,12 @@
 @tailwind utilities;
 
 
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 6s linear infinite;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
