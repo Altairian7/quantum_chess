@@ -6,15 +6,15 @@ import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 import { Timer, Crown, Trophy, History, Atom, Sparkles } from 'lucide-react';
 
-export default function chess() {
+export default function ChessGame() { // Changed function name to start with uppercase
   const { width } = useWindowSize();
   const boardWidth = Math.min(580, width ? width - 32 : 468);
 
   const [game, setGame] = useState(new Chess());
   const [moveFrom, setMoveFrom] = useState('');
-  const [rightClickedSquares, setRightClickedSquares] = useState({});
-  const [moveSquares, setMoveSquares] = useState({});
-  const [optionSquares, setOptionSquares] = useState({});
+  const [rightClickedSquares, setRightClickedSquares] = useState<Record<string, any>>({});
+  const [moveSquares, setMoveSquares] = useState<Record<string, any>>({});
+  const [optionSquares, setOptionSquares] = useState<Record<string, any>>({});
   const [whiteTime, setWhiteTime] = useState(0);
   const [blackTime, setBlackTime] = useState(0);
   const [isGameStarted, setIsGameStarted] = useState(false);
@@ -76,7 +76,7 @@ export default function chess() {
       const superpositionSquares = [move1.to, move2.to];
       setQuantumSquares(superpositionSquares);
 
-      const newSquares: any = {};
+      const newSquares: Record<string, any> = {};
       superpositionSquares.forEach(sq => {
         newSquares[sq] = {
           background: 'radial-gradient(circle, rgba(147, 51, 234, 0.3) 85%, transparent 15%)',
@@ -95,7 +95,7 @@ export default function chess() {
       return;
     }
 
-    const newSquares: any = {};
+    const newSquares: Record<string, any> = {};
     moves.forEach((move) => {
       newSquares[move.to] = {
         background:
@@ -199,14 +199,15 @@ export default function chess() {
           }
         }
 
-        game.move(move);
-        setGame(new Chess(game.fen()));
+        const gameCopy = new Chess(game.fen());
+        gameCopy.move(move);
+        setGame(gameCopy);
         setMoveHistory(prev => [...prev, `${moveFrom}-${square}`]);
         
-        if (game.isGameOver()) {
-          if (game.isCheckmate()) {
-            setWinner(`${game.turn() === 'w' ? 'Black' : 'White'} wins by checkmate!`);
-          } else if (game.isDraw()) {
+        if (gameCopy.isGameOver()) {
+          if (gameCopy.isCheckmate()) {
+            setWinner(`${gameCopy.turn() === 'w' ? 'Black' : 'White'} wins by checkmate!`);
+          } else if (gameCopy.isDraw()) {
             setWinner('Game drawn!');
           }
         }
@@ -219,14 +220,14 @@ export default function chess() {
 
   function onSquareRightClick(square: string) {
     const colour = 'rgba(255, 0, 0, 0.4)';
-    setRightClickedSquares({
-      ...rightClickedSquares,
+    setRightClickedSquares(prev => ({
+      ...prev,
       [square]:
-        rightClickedSquares[square] &&
-        rightClickedSquares[square].backgroundColor === colour
+        prev[square] &&
+        prev[square].backgroundColor === colour
           ? undefined
           : { backgroundColor: colour }
-    });
+    }));
   }
 
   const formatTime = (seconds: number) => {

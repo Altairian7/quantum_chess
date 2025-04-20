@@ -61,6 +61,18 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+
+          <Link href="/tictactoe">
+            <div className="w-80 h-52 relative bg-white/10 border border-cyan-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+              <div className="flex flex-col items-center justify-center h-full p-6">
+                <div className="text-5xl mb-2 animate-wiggle">❌⭕</div>
+                <h2 className="text-2xl font-semibold text-cyan-200 mb-1">
+                  Quantum Tic-Tac-Toe
+                </h2>
+                <p className="text-sm text-cyan-300 group-hover:underline transition">Try It</p>
+              </div>
+            </div>
+          </Link>
         </div>
 
         <div className="mt-16 text-sm text-blue-400 italic opacity-75 animate-pulse">
