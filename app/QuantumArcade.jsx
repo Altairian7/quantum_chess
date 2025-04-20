@@ -37,72 +37,69 @@ export default function HomePage() {
         </p>
 
         {/* Game Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Link href="/chess">
-            <div className="w-80 h-52 relative bg-white/10 border border-purple-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
-              <div className="flex flex-col items-center justify-center h-full p-6">
-                <div className="text-5xl mb-2 animate-bounce">♟</div>
-                <h2 className="text-2xl font-semibold text-purple-200 mb-1">
-                  Quantum Chess
-                </h2>
-                <p className="text-sm text-purple-300 group-hover:underline transition">Play Now</p>
-              </div>
-            </div>
-          </Link>
-
-          <Link href="/puzzle">
-            <div className="w-80 h-52 relative bg-white/10 border border-pink-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
-              <div className="flex flex-col items-center justify-center h-full p-6">
-                <div className="text-5xl mb-2 animate-spin-slow">🧩</div>
-                <h2 className="text-2xl font-semibold text-pink-200 mb-1">
-                  Quantum Puzzle
-                </h2>
-                <p className="text-sm text-pink-300 group-hover:underline transition">Solve Now</p>
-              </div>
-            </div>
-          </Link>
-
-          <Link href="/tictactoe">
-            <div className="w-80 h-52 relative bg-white/10 border border-cyan-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
-              <div className="flex flex-col items-center justify-center h-full p-6">
-                <div className="text-5xl mb-2 animate-wiggle">❌⭕</div>
-                <h2 className="text-2xl font-semibold text-cyan-200 mb-1">
-                  Quantum Tic-Tac-Toe
-                </h2>
-                <p className="text-sm text-cyan-300 group-hover:underline transition">Try It</p>
-              </div>
-            </div>
-          </Link>
-
-          <Link href="/checkers">
-            <div className="w-80 h-52 relative bg-white/10 border border-yellow-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
-              <div className="flex flex-col items-center justify-center h-full p-6">
-                <div className="text-5xl mb-2 animate-ping">🎯</div>
-                <h2 className="text-2xl font-semibold text-yellow-200 mb-1">
-                  Quantum Checkers
-                </h2>
-                <p className="text-sm text-yellow-300 group-hover:underline transition">Play Now</p>
-              </div>
-            </div>
-          </Link>
-
-          <Link href="/sudoku">
-            <div className="w-80 h-52 relative bg-white/10 border border-green-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
-              <div className="flex flex-col items-center justify-center h-full p-6">
-                <div className="text-5xl mb-2 animate-pulse">🔢</div>
-                <h2 className="text-2xl font-semibold text-green-200 mb-1">
-                  Quantum Sudoku
-                </h2>
-                <p className="text-sm text-green-300 group-hover:underline transition">Solve Now</p>
-              </div>
-            </div>
-          </Link>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <Link href="/chess">
+      <div className="w-72 h-52 relative bg-white/10 border border-purple-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2 animate-bounce">♟</div>
+          <h2 className="text-2xl font-semibold text-purple-200 mb-1">Quantum Chess</h2>
+          <p className="text-sm text-purple-300 group-hover:underline transition">Play Now</p>
         </div>
+      </div>
+    </Link>
 
-
+    <Link href="/puzzle">
+      <div className="w-72 h-52 relative bg-white/10 border border-pink-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2 animate-spin-slow">🧩</div>
+          <h2 className="text-2xl font-semibold text-pink-200 mb-1">Quantum Puzzle</h2>
+          <p className="text-sm text-pink-300 group-hover:underline transition">Solve Now</p>
         </div>
+      </div>
+    </Link>
 
-        
+    <Link href="/tic-tac-toe">
+      <div className="w-72 h-52 relative bg-white/10 border border-green-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2">⭕</div>
+          <h2 className="text-2xl font-semibold text-green-200 mb-1">Quantum Tic Tac Toe</h2>
+          <p className="text-sm text-green-300 group-hover:underline transition">Play Now</p>
+        </div>
+      </div>
+    </Link>
+
+    <Link href="/sudoku">
+      <div className="w-72 h-52 relative bg-white/10 border border-yellow-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2">🧠</div>
+          <h2 className="text-2xl font-semibold text-yellow-200 mb-1">Quantum Sudoku</h2>
+          <p className="text-sm text-yellow-300 group-hover:underline transition">Play Now</p>
+        </div>
+      </div>
+    </Link>
+
+    <Link href="/memory">
+      <div className="w-72 h-52 relative bg-white/10 border border-cyan-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2">🧬</div>
+          <h2 className="text-2xl font-semibold text-cyan-200 mb-1">Quantum Memory</h2>
+          <p className="text-sm text-cyan-300 group-hover:underline transition">Play Now</p>
+        </div>
+      </div>
+    </Link>
+
+    {/* 🔥 New Game Card */}
+    <Link href="/maze">
+      <div className="w-72 h-52 relative bg-white/10 border border-red-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+        <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="text-5xl mb-2">🌀</div>
+          <h2 className="text-2xl font-semibold text-red-200 mb-1">Quantum Maze</h2>
+          <p className="text-sm text-red-300 group-hover:underline transition">Explore Now</p>
+        </div>
+      </div>
+    </Link>
+  </div>
+
 
         <div className="mt-16 text-sm text-blue-400 italic opacity-75 animate-pulse">
           ⚡ More quantum games arriving soon...
