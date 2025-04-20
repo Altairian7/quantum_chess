@@ -88,7 +88,6 @@ export default function HomePage() {
       </div>
     </Link>
 
-    {/* 🔥 New Game Card */}
     <Link href="/maze">
       <div className="w-72 h-52 relative bg-white/10 border border-red-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
         <div className="flex flex-col items-center justify-center h-full p-6">
