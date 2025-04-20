@@ -86,7 +86,20 @@ export default function HomePage() {
             </div>
           </Link>
 
-          
+          <Link href="/sudoku">
+            <div className="w-80 h-52 relative bg-white/10 border border-green-400/20 backdrop-blur-xl rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 group cursor-pointer">
+              <div className="flex flex-col items-center justify-center h-full p-6">
+                <div className="text-5xl mb-2 animate-pulse">🔢</div>
+                <h2 className="text-2xl font-semibold text-green-200 mb-1">
+                  Quantum Sudoku
+                </h2>
+                <p className="text-sm text-green-300 group-hover:underline transition">Solve Now</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+
         </div>
 
         
