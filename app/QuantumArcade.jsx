@@ -99,7 +99,6 @@ export default function HomePage() {
     </Link>
   </div>
 
-
         <div className="mt-16 text-sm text-blue-400 italic opacity-75 animate-pulse">
           ⚡ More quantum games arriving soon...
         </div>
