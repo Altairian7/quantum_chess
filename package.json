@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "canvas-confetti": "^1.9.3",
     "chess.js": "^1.2.0",
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.487.0",
