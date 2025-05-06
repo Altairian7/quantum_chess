@@ -67,6 +67,91 @@ export default function HomePage() {
         <p className="text-blue-200 text-center max-w-xl mb-12 text-lg md:text-xl">
           Dive into the multiverse of games where quantum logic meets fun.
         </p>
+
+
+
+         {/* Game Cards */}
+         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <Link href="/chess">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-purple-900/40 to-purple-800/20 border border-purple-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-purple opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2 animate-pulse" style={{ animationDuration: '2s' }}>♟</div>
+                <h2 className="text-2xl font-semibold text-purple-200 mb-1">Quantum Chess</h2>
+                <p className="text-sm text-purple-300 bg-purple-800/30 px-3 py-1 rounded-full border border-purple-500/30 group-hover:bg-purple-700/50 transition">Play Now</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/puzzle">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-pink-900/40 to-pink-800/20 border border-pink-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-pink opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2 animate-spin" style={{ animationDuration: '10s' }}>🧩</div>
+                <h2 className="text-2xl font-semibold text-pink-200 mb-1">Quantum Puzzle</h2>
+                <p className="text-sm text-pink-300 bg-pink-800/30 px-3 py-1 rounded-full border border-pink-500/30 group-hover:bg-pink-700/50 transition">Solve Now</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/tic-tac-toe">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-green-900/40 to-green-800/20 border border-green-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-green-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-green opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2" style={{ 
+                  animation: `${quantumState % 20 === 0 ? 'spin 1s ease-in-out' : 'none'}`
+                }}>⭕</div>
+                <h2 className="text-2xl font-semibold text-center text-green-200 mb-1">Quantum Tic Tac Toe</h2>
+                <p className="text-sm text-green-300 bg-green-800/30 px-3 py-1 rounded-full border border-green-500/30 group-hover:bg-green-700/50 transition">Play Now</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/sudoku">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-yellow-900/40 to-yellow-800/20 border border-yellow-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-yellow-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-yellow opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2 animate-pulse" style={{ animationDuration: '3s' }}>🧠</div>
+                <h2 className="text-2xl font-semibold text-yellow-200 mb-1">Quantum Sudoku</h2>
+                <p className="text-sm text-yellow-300 bg-yellow-800/30 px-3 py-1 rounded-full border border-yellow-500/30 group-hover:bg-yellow-700/50 transition">Play Now</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/memory">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-cyan-900/40 to-cyan-800/20 border border-cyan-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-cyan-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-cyan opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2 animate-pulse" style={{ animationDuration: '2.5s' }}>🧬</div>
+                <h2 className="text-2xl font-semibold text-cyan-200 mb-1">Quantum Memory</h2>
+                <p className="text-sm text-cyan-300 bg-cyan-800/30 px-3 py-1 rounded-full border border-cyan-500/30 group-hover:bg-cyan-700/50 transition">Play Now</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link href="/maze">
+            <div className="w-72 h-52 relative bg-gradient-to-br from-red-900/40 to-red-800/20 border border-red-400/30 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-red-500/30 hover:scale-105 transition-all duration-300 group cursor-pointer overflow-hidden">
+              <div className="absolute inset-0 bg-grid-red opacity-20"></div>
+              <div className="flex flex-col items-center justify-center h-full p-6 relative">
+                <div className="text-5xl mb-2" style={{ 
+                  animation: `${quantumState % 25 === 0 ? 'pulse 1s ease-in-out' : 'none'}`
+                }}>🌀</div>
+                <h2 className="text-2xl font-semibold text-red-200 mb-1">Quantum Maze</h2>
+                <p className="text-sm text-red-300 bg-red-800/30 px-3 py-1 rounded-full border border-red-500/30 group-hover:bg-red-700/50 transition">Explore Now</p>
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        <div className="mt-16 bg-blue-900/20 border border-blue-500/30 px-4 py-2 rounded-full">
+          <p className="text-sm text-blue-300 italic flex items-center gap-2">
+            <span className="animate-pulse">⚡</span> 
+            More quantum games arriving from parallel dimensions soon...
+            <span className="animate-pulse">⚡</span>
+          </p>
+        </div>
+
+
      </div>
     </main>
   );
